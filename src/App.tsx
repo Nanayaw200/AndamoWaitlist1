@@ -60,6 +60,29 @@ function App() {
     return () => window.clearInterval(interval)
   }, [])
 
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -60px 0px',
+      threshold: 0.08,
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active')
+        }
+      })
+    }, observerOptions)
+
+    const revealElements = document.querySelectorAll('.reveal')
+    revealElements.forEach((el) => observer.observe(el))
+
+    return () => {
+      revealElements.forEach((el) => observer.unobserve(el))
+    }
+  }, [])
+
   const countdownItems = useMemo(
     () => [
       { label: 'Days', value: countdown.days },
@@ -203,13 +226,13 @@ function App() {
         </section>
 
         <section id="ambassador" className="ambassador-section">
-          <div className="section-header">
+          <div className="section-header reveal">
             <p className="section-eyebrow">Join the future</p>
             <h2 className="section-title">JOIN THE FUTURE OF CONVENIENCE ⚡</h2>
           </div>
 
           <div className="ambassador-grid">
-            <div className="ambassador-copy">
+            <div className="ambassador-copy reveal reveal-left">
               <p className="ambassador-lead">
                 Andamo is looking for committed, hardworking and ambitious students ready to work, grow and build with us as we redefine
                 shopping, food and delivery on campus.
@@ -237,39 +260,45 @@ function App() {
               <p className="ambassador-tags">#ANDAMO #JUSTANDAMOIT #SMARTLIVING #FUTUREOFCONVENIENCE #ANDAMOVANGUARD</p>
             </div>
 
-            <div className="ambassador-panel">
+            <div className="ambassador-panel reveal reveal-right">
               <p className="team-heading">TEAM ANDAMO</p>
               <p className="team-note">Healthy Living Shouldn’t Be Difficult.</p>
             </div>
           </div>
         </section>
         <section id="features" className="feature-section">
-          <div className="section-header">
+          <div className="section-header reveal">
             <p className="section-eyebrow">Core capabilities</p>
             <h2 className="section-title">Campus grocery delivery built for KNUST students.</h2>
           </div>
 
           <div className="feature-grid">
-            {features.map((feature) => (
+            {features.map((feature, index) => (
               <FeatureCard
                 key={feature.title}
                 icon={feature.icon}
                 title={feature.title}
                 description={feature.description}
+                className={`reveal reveal-scale delay-${(index % 4) * 100}`}
               />
             ))}
           </div>
         </section>
 
         <section id="stats" className="stats-section">
-          <div className="stats-card">
-            <div className="stats-header">
+          <div className="stats-card reveal">
+            <div className="stats-header reveal">
               <p className="section-eyebrow">Delivery pulse</p>
               <h2 className="stats-title">Live grocery delivery performance for KNUST students.</h2>
             </div>
             <div className="stats-grid">
-              {stats.map((stat) => (
-                <StatCard key={stat.label} value={stat.value} label={stat.label} />
+              {stats.map((stat, index) => (
+                <StatCard
+                  key={stat.label}
+                  value={stat.value}
+                  label={stat.label}
+                  className={`reveal reveal-scale delay-${index * 100}`}
+                />
               ))}
             </div>
             <p className="stats-note">Fresh groceries, reliable campus routes, and fast live tracking from market to dorm.</p>

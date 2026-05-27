@@ -2,11 +2,12 @@ interface FeatureCardProps {
   icon: string
   title: string
   description: string
+  className?: string
 }
 
-export default function FeatureCard({ icon, title, description }: FeatureCardProps) {
+export default function FeatureCard({ icon, title, description, className = '' }: FeatureCardProps) {
   return (
-    <article className="feature-card">
+    <article className={`feature-card ${className}`}>
       <div className="feature-icon">{icon}</div>
       <div>
         <h3>{title}</h3>
@@ -15,3 +16,4 @@ export default function FeatureCard({ icon, title, description }: FeatureCardPro
     </article>
   )
 }
+
