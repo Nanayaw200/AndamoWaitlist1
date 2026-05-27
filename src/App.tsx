@@ -54,6 +54,7 @@ function App() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [message, setMessage] = useState('')
   const [countdown, setCountdown] = useState(getCountdown())
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     const interval = window.setInterval(() => setCountdown(getCountdown()), 1000)
@@ -167,15 +168,57 @@ function App() {
           </div>
         </div>
 
-        <nav className="nav-links">
+        <nav className="nav-links desktop-only">
           <a href="#features">Features</a>
           <a href="#stats">Stats</a>
           <a href="#footer">Contact</a>
         </nav>
 
-        <button type="button" className="nav-cta" onClick={() => document.getElementById('email')?.focus()}>
+        <button 
+          type="button" 
+          className="nav-cta desktop-only" 
+          onClick={() => document.getElementById('email')?.focus()}
+        >
           Join Waitlist
         </button>
+
+        <button
+          type="button"
+          className="mobile-menu-toggle"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle Navigation Menu"
+        >
+          {isMenuOpen ? (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="4" x2="20" y1="12" y2="12" />
+              <line x1="4" x2="20" y1="6" y2="6" />
+              <line x1="4" x2="20" y1="18" y2="18" />
+            </svg>
+          )}
+        </button>
+
+        <div className={`mobile-dropdown ${isMenuOpen ? 'open' : ''}`}>
+          <nav className="mobile-nav-links">
+            <a href="#features" onClick={() => setIsMenuOpen(false)}>Features</a>
+            <a href="#stats" onClick={() => setIsMenuOpen(false)}>Stats</a>
+            <a href="#footer" onClick={() => setIsMenuOpen(false)}>Contact</a>
+          </nav>
+          <button 
+            type="button" 
+            className="nav-cta mobile-cta" 
+            onClick={() => {
+              setIsMenuOpen(false);
+              document.getElementById('email')?.focus();
+            }}
+          >
+            Join Waitlist
+          </button>
+        </div>
       </header>
 
       <main className="page-content">
