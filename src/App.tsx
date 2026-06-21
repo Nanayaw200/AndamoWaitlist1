@@ -7,7 +7,7 @@ import logo from './assets/Andamologo.png'
 import welcomeImage from './assets/Welcome.jpeg'
 import './App.css'
 
-const LAUNCH_DATE = new Date(2026, 5, 22, 23, 59, 0)
+const LAUNCH_DATE = new Date(2026, 5, 29, 23, 59, 0)
 
 const features = [
   {
